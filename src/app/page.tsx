@@ -84,10 +84,10 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen bg-primary z-10">
+    <main className="min-h-screen bg-primary z-10">
       <div
         id="headerElements"
-        className="flex absolute w-full justify-between z-30"
+        className="flex relative w-full justify-between z-30"
       >
         <div className="flex pt-10 pl-10 w-1/3">
           <div className="flex flex-col items-center justify-center">
@@ -170,68 +170,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div
-        id="wonchisImgContainer"
-        className="absolute inset-0 z-10 overflow-hidden"
-      >
-        <div
-          className="absolute top-10 left-[10%] -z-10 wonchi"
-          data-speed="-0.04"
-        >
-          <img
-            src="/svgs/singleWonchi.png"
-            alt="Blurry Product 1"
-            className="w-[100px] h-[100px] md:w-[250px] md:h-[250px] blur-sm -z-10"
-          />
-        </div>
-        <div
-          className="absolute top-[30%] left-[80%] z-0 wonchi"
-          data-speed="0.04"
-        >
-          <img
-            src="/svgs/singleWonchi.png"
-            alt="Blurry Product 2"
-            className="w-[150px] h-[150px] lg:w-[250px] lg:h-[250px] blur-sm"
-            style={{ transform: 'translate(-50%, -50%)' }}
-          />
-        </div>
-        <div
-          className="absolute top-[50%] left-[5%] -z-10 wonchi"
-          data-speed="-0.05"
-        >
-          <img
-            src="/svgs/singleWonchi.png"
-            alt="Blurry Product 1"
-            className="w-[170px] h-[170px] lg:w-[300px] lg:h-[300px] blur-sm -z-10"
-          />
-        </div>
-        <div
-          className="absolute bottom-[20%] left-[50%] z-0 wonchi"
-          data-speed="0.04"
-        >
-          <img
-            src="/svgs/singleWonchi.png"
-            alt="Blurry Product 3"
-            className="w-[100px] h-[100px] lg:w-[200px] lg:h-[200px] blur-md"
-            style={{ transform: 'translate(-50%, 50%)' }}
-          />
-        </div>
-        <div
-          className="absolute bottom-[-10%] left-[80%] -z-10 wonchi"
-          data-speed="-0.05"
-        >
-          <img
-            src="/svgs/singleWonchi.png"
-            alt="Blurry Product 1"
-            className="w-[170px] h-[170px] lg:w-[300px] lg:h-[300px] blur-sm -z-10"
-          />
-        </div>
-      </div>
-
-      <div className="flex w-full flex-col justify-center items-center z-20">
+      <div className="relative flex w-full flex-col justify-center items-center z-30">
         <div className="flex flex-col items-center justify-center mb-5 md:mb-10 lg:mb-14">
           <Image
-            className="relative lg:w-[628px] lg:h-[246px] px-4"
+            className="relative w-[414px] h-[173px] lg:w-[628px] lg:h-[246px] px-4 my-5"
             src="/svgs/flexLogo.svg"
             alt="FlexCidine Logo"
             width={628}
@@ -241,7 +183,7 @@ export default function Home() {
         </div>
 
         <div className="max-w-[620px] md:max-w-[800px] xl:max-w-[1000px]">
-          <p className="leading-relaxed text-3xl md:text-4xl xl:text-5xl xl:leading-normal text-flexbiege text-center font-kulture px-5">
+          <p className="leading-relaxed text-2xl md:text-3xl xl:text-5xl xl:leading-normal text-flexbiege text-center font-kulture px-5">
             <span className="relative inline-flex items-center">
               <img
                 className="absolute top-[-10px] lg:top-[-40px] left-[-20px] lg:left-[-40px] w-[28px] h-[25px] lg:w-[56px] lg:h-[51px]"
@@ -269,14 +211,14 @@ export default function Home() {
         </div>
         <div className="max-w-[920px]">
           <p
-            className={`text-center font-kulture text-xl md:text-3xl xl:text-5xl xl:leading-normal text-secondary max-w-[514px] leading-normal my-12 ${styles.footerText}`}
+            className={`text-center font-kulture text-xl md:text-2xl xl:text-4xl xl:leading-normal text-secondary max-w-[514px] leading-normal my-12 ${styles.footerText}`}
           >
             ¡Sé de los primeros en conseguirlos!
           </p>
         </div>
 
-        <div className="flex justify-between items-center lg:items-start flex-col lg:flex-row">
-          <span className="text-white text-center lg:text-end font-lato text-xl md:text-3xl lg:max-w-[380px] mb-4 lg:mb-0 lg:mr-8">
+        <div className="flex justify-between items-center lg:items-start flex-col lg:flex-row mb-12">
+          <span className="text-white text-center lg:text-end font-lato text-xl md:text-2xl xl:text-3xl lg:max-w-[380px] mb-4 lg:mb-0 lg:mr-8">
             Suscríbete para un acceso anticipado.
           </span>
           <div className="flex flex-col">
@@ -338,6 +280,58 @@ export default function Home() {
         </div>
 
         <div className="w-[240px] h-[300px] rounded-2xl bg-black fixed bottom-12 right-12 opacity-0"></div>
+      </div>
+
+      <div
+        id="wonchisImgContainer"
+        className="absolute inset-0 z-0 overflow-hidden"
+      >
+        <div className="absolute top-10 left-[10%] wonchi" data-speed="-0.04">
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 1"
+            className="w-[100px] h-[100px] md:w-[250px] md:h-[250px] blur-sm"
+          />
+        </div>
+        <div className="absolute top-[30%] left-[80%]" data-speed="0.04">
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 2"
+            className="w-[150px] h-[150px] lg:w-[250px] lg:h-[250px] blur-sm object-contain"
+            style={{ transform: 'translate(-50%, -50%)' }}
+          />
+        </div>
+        <div
+          className="absolute top-[50%] left-[5%] -z-10 wonchi"
+          data-speed="-0.05"
+        >
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 1"
+            className="w-[170px] h-[170px] lg:w-[300px] lg:h-[300px] blur-sm -z-10"
+          />
+        </div>
+        <div
+          className="absolute bottom-[20%] left-[50%] z-0 wonchi"
+          data-speed="0.04"
+        >
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 3"
+            className="w-[100px] h-[100px] lg:w-[200px] lg:h-[200px] blur-md"
+            style={{ transform: 'translate(-50%, 50%)' }}
+          />
+        </div>
+        <div
+          className="absolute bottom-[1%] left-[80%] -z-10 wonchi"
+          data-speed="-0.05"
+        >
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 1"
+            className="w-[170px] h-[170px] lg:w-[300px] lg:h-[300px] blur-sm -z-10 object-contain"
+          />
+        </div>
       </div>
     </main>
   )
