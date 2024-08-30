@@ -142,7 +142,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-1/3">
-          <h1 className="text-flexbiege text-center text-xl md:text-3xl xl:text-5xl 2xl:text-6xl font-kulture uppercase pt-10">
+          <h1 className="text-flexbiege text-center text-2xl absolute sm:relative md:text-3xl xl:text-5xl 2xl:text-6xl font-kulture uppercase pt-10">
             ¡Muy pronto!
           </h1>
         </div>
@@ -171,7 +171,7 @@ export default function Home() {
       </div>
 
       <div className="relative flex w-full flex-col justify-center items-center z-30">
-        <div className="flex flex-col items-center justify-center mb-5 md:mb-10 lg:mb-14">
+        <div className="flex flex-col items-center justify-center mt-[-50px] lg:mt-0 lg:mb-14">
           <Image
             className="relative w-[314px] h-[123px] md:w-[414px] md:h-[173px] lg:w-[628px] lg:h-[246px] px-4 my-5"
             src="/svgs/flexLogo.svg"
@@ -209,7 +209,7 @@ export default function Home() {
         </div>
         <div className="max-w-[300px] md:max-w-[920px]">
           <p
-            className={`text-center font-kulture text-xl md:text-2xl xl:text-4xl xl:leading-normal text-secondary max-w-[514px] leading-normal my-12 ${styles.footerText}`}
+            className={`text-center font-kulture text-lg sm:text-xl md:text-2xl xl:text-4xl xl:leading-normal text-secondary max-w-[514px] leading-normal my-12 ${styles.footerText}`}
           >
             ¡Sé de los primeros en conseguirlos!
           </p>
@@ -222,7 +222,7 @@ export default function Home() {
           <div className="flex flex-col">
             <div
               className="group cursor-pointer shadow-[10px_10px_0px_0px_rgba(0,0,0)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0)] 
-            transition-all duration-300 w-full mr-4 mb-6 lg:w-[380px] h-[70px] border-[4px] border-black bg-[#F0E7D8] rounded-lg flex items-center justify-start"
+            transition-all duration-300 w-full mr-4 mb-6 lg:w-[380px] h-[50px] md:h-[70px] border-[4px] border-black bg-[#F0E7D8] rounded-lg flex items-center justify-start"
             >
               <form onSubmit={handleSubmit} className="flex items-center">
                 <input
@@ -251,7 +251,7 @@ export default function Home() {
               <input
                 type="checkbox"
                 id="privacy-checkbox"
-                className="cursor-pointer ml-2 mt-1 w-5 h-5 appearance-none border-2 border-black rounded-sm checked:bg-secondary checked:border-black focus:outline-none focus:ring-0"
+                className="cursor-pointer ml-2 mt-1 w-5 h-5 appearance-none border-2 border-black rounded-sm bg-white checked:bg-secondary checked:border-black focus:outline-none focus:ring-0"
                 style={{ boxShadow: '4px 4px 0px 0px rgba(0, 0, 0, 1)' }}
                 disabled={isSubmitting || isSubscribed}
                 required
