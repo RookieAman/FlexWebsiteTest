@@ -4,17 +4,36 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styles from './wonchis.module.css'
-import ShibaStatic from '../../public/shibaStatic.svg'
-import ShibaSvg from '@/components/shibaSvg'
 import { client } from './lib/supabaseClient'
 
 export default function Home() {
-  const [mousePosition, setMousePosition] = useState<{
-    x: number | null
-    y: number | null
-  }>({ x: null, y: null })
-
   const [mailInput, setMailInput] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubscribed, setIsSubscribed] = useState(false)
+  const [feedbackMessage, setFeedbackMessage] = useState('')
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e
+      const wonchis = document.querySelectorAll<HTMLDivElement>('.wonchi')
+
+      wonchis.forEach((wonchi) => {
+        const speed = parseFloat(wonchi.getAttribute('data-speed') || '0')
+        if (speed !== null) {
+          const x = (clientX - window.innerWidth / 2) * speed
+          const y = (clientY - window.innerHeight / 2) * speed
+
+          wonchi.style.transform = `translate(${x}px, ${y}px)`
+        }
+      })
+    }
+
+    document.addEventListener('mousemove', handleMouseMove)
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [])
 
   const validateEmail = (email: string) => {
     // Expresión regular para validar el formato del correo electrónico
@@ -25,97 +44,58 @@ export default function Home() {
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (isSubmitting || isSubscribed) return // Evitar múltiples envíos o reenvíos
+
+    // Verificar si el checkbox está marcado
+    const checkbox = document.getElementById(
+      'privacy-checkbox'
+    ) as HTMLInputElement
+    if (!checkbox.checked) {
+      window.alert(
+        'Por favor, acepte la Política de privacidad para continuar.'
+      )
+      return
+    }
+
     if (!validateEmail(mailInput)) {
       window.alert('Por favor, ingresa un correo electrónico válido.')
       return
     }
+
+    setIsSubmitting(true) // Deshabilitar el botón
 
     try {
       const res = await client.from('mails').insert({
         email: mailInput,
       })
       console.log(res)
+      setFeedbackMessage(
+        '¡Gracias! Tu suscripción se ha realizado correctamente.'
+      )
+      setMailInput('') // Limpiar el campo de entrada
+      checkbox.checked = false // Desmarcar el checkbox
+      setIsSubscribed(true) // Marcar como suscrito para deshabilitar futuros envíos
     } catch (error) {
       console.error(error)
+      setFeedbackMessage('Hubo un error. Por favor, intenta nuevamente.')
+    } finally {
+      setIsSubmitting(false) // Rehabilitar el botón
     }
   }
 
-  // useEffect(() => {
-  //   const updateMousePosition = (e: MouseEvent) => {
-  //     setMousePosition({ x: e.clientX, y: e.clientY })
-  //   }
-
-  //   window.addEventListener('mousemove', updateMousePosition)
-
-  //   return () => {
-  //     window.removeEventListener('mousemove', updateMousePosition)
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   const moveEyes = (event: MouseEvent) => {
-  //     const eyeLeft = document.getElementById(
-  //       'eye-left'
-  //     ) as SVGCircleElement | null
-  //     const eyeRight = document.getElementById(
-  //       'eye-right'
-  //     ) as SVGCircleElement | null
-
-  //     // Verifica que los elementos existan
-  //     if (!eyeLeft || !eyeRight) return
-
-  //     console.log('EYES:')
-  //     console.log(eyeLeft, eyeRight)
-
-  //     const { clientX: mouseX, clientY: mouseY } = event
-  //     const svgRect = document.querySelector('svg')?.getBoundingClientRect()
-
-  //     if (!svgRect) return
-
-  //     const svgCenterX = svgRect.left + svgRect.width / 2
-  //     const svgCenterY = svgRect.top + svgRect.height / 2
-
-  //     const angleLeft = Math.atan2(
-  //       mouseY - svgCenterY,
-  //       mouseX - (svgCenterX - 50)
-  //     )
-  //     const angleRight = Math.atan2(
-  //       mouseY - svgCenterY,
-  //       mouseX - (svgCenterX + 50)
-  //     )
-
-  //     const radius = 10 // Tamaño del movimiento de los ojos
-
-  //     const eyeLeftX = 150 + Math.cos(angleLeft) * radius
-  //     const eyeLeftY = 150 + Math.sin(angleLeft) * radius
-
-  //     const eyeRightX = 250 + Math.cos(angleRight) * radius
-  //     const eyeRightY = 150 + Math.sin(angleRight) * radius
-
-  //     eyeLeft.setAttribute('cx', eyeLeftX.toString())
-  //     eyeLeft.setAttribute('cy', eyeLeftY.toString())
-
-  //     eyeRight.setAttribute('cx', eyeRightX.toString())
-  //     eyeRight.setAttribute('cy', eyeRightY.toString())
-  //   }
-
-  //   document.addEventListener('mousemove', moveEyes)
-
-  //   return () => {
-  //     document.removeEventListener('mousemove', moveEyes)
-  //   }
-  // }, [])
-
   return (
-    <main className="flex min-h-screen bg-primary">
-      <div className="flex absolute w-full justify-between">
+    <main className="flex min-h-screen bg-primary z-10">
+      <div
+        id="headerElements"
+        className="flex absolute w-full justify-between z-30"
+      >
         <div className="flex pt-10 pl-10 w-1/3">
           <div className="flex flex-col items-center justify-center">
             <div className="flex mb-6">
-              <div className="relative mr-4">
+              <div className="relative mr-4 ">
                 <a href="https://www.instagram.com/flexcidine" target="_blank">
                   <Image
-                    src="/logo_insta.svg"
+                    src="/svgs/logo_insta.svg"
                     alt="Instagram logo"
                     width={31}
                     height={30}
@@ -128,7 +108,7 @@ export default function Home() {
                   target="_blank"
                 >
                   <Image
-                    src="/logo_tiktok.svg"
+                    src="/svgs/logo_tiktok.svg"
                     alt="Tiktok Logo"
                     width={26}
                     height={30}
@@ -138,7 +118,7 @@ export default function Home() {
               <div className="relative mr-4">
                 <a href="https://www.youtube.com/@FlexCidine" target="_blank">
                   <Image
-                    src="/logo_yt.svg"
+                    src="/svgs/logo_yt.svg"
                     alt="Youtube Logo"
                     width={41}
                     height={28}
@@ -149,7 +129,7 @@ export default function Home() {
             <div className="flex">
               <div className="flex flex-col justify-center items-center animate-bounce">
                 <Image
-                  src="/arrowUp.svg"
+                  src="/svgs/arrowUp.svg"
                   alt="Youtube Logo"
                   width={36}
                   height={27}
@@ -162,7 +142,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-1/3">
-          <h1 className="text-flexbiege text-center text-xl md:text-2xl lg:text-5xl font-kulture uppercase pt-10">
+          <h1 className="text-flexbiege text-center text-xl md:text-3xl xl:text-5xl 2xl:text-6xl font-kulture uppercase pt-10">
             ¡Muy pronto!
           </h1>
         </div>
@@ -170,16 +150,16 @@ export default function Home() {
           <div className="w-[444px] items-start flex justify-end">
             <Image
               className="relative"
-              src="/bucketsBg.svg"
+              src="/svgs/bucketsBg.svg"
               alt="Buckets Logo"
               width={444}
               height={176}
               priority
             />
-            <div className="w-[237px] absolute flex justify-end md:mt-4 mr-2 mt-4 md:mr-6 lg:mt-8 lg:mr-14">
+            <div className="w-[237px] absolute flex justify-end  mr-2 mt-4 md:mt-6 md:mr-12 lg:mt-8 lg:mr-14">
               <Image
-                className="relative lg:w-[237px] lg:h-[66px] w-[100px] h-[28px] sm:w-[150px] sm:h-[42px]"
-                src="/bucketsLogo.svg"
+                className="relative lg:w-[237px] lg:h-[50px] xl:w-[237px] xl:h-[66px] w-[100px] h-[28px] sm:w-[150px] sm:h-[42px]"
+                src="/svgs/bucketsLogo.svg"
                 alt="Buckets Logo"
                 width={237}
                 height={66}
@@ -190,48 +170,119 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex w-full flex-col justify-center items-center">
+      <div
+        id="wonchisImgContainer"
+        className="absolute inset-0 z-10 overflow-hidden"
+      >
+        <div
+          className="absolute top-10 left-[10%] -z-10 wonchi"
+          data-speed="-0.04"
+        >
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 1"
+            className="w-[100px] h-[100px] md:w-[250px] md:h-[250px] blur-sm -z-10"
+          />
+        </div>
+        <div
+          className="absolute top-[30%] left-[80%] z-0 wonchi"
+          data-speed="0.04"
+        >
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 2"
+            className="w-[150px] h-[150px] lg:w-[250px] lg:h-[250px] blur-sm"
+            style={{ transform: 'translate(-50%, -50%)' }}
+          />
+        </div>
+        <div
+          className="absolute top-[50%] left-[5%] -z-10 wonchi"
+          data-speed="-0.05"
+        >
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 1"
+            className="w-[170px] h-[170px] lg:w-[300px] lg:h-[300px] blur-sm -z-10"
+          />
+        </div>
+        <div
+          className="absolute bottom-[20%] left-[50%] z-0 wonchi"
+          data-speed="0.04"
+        >
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 3"
+            className="w-[100px] h-[100px] lg:w-[200px] lg:h-[200px] blur-md"
+            style={{ transform: 'translate(-50%, 50%)' }}
+          />
+        </div>
+        <div
+          className="absolute bottom-[-10%] left-[80%] -z-10 wonchi"
+          data-speed="-0.05"
+        >
+          <img
+            src="/svgs/singleWonchi.png"
+            alt="Blurry Product 1"
+            className="w-[170px] h-[170px] lg:w-[300px] lg:h-[300px] blur-sm -z-10"
+          />
+        </div>
+      </div>
+
+      <div className="flex w-full flex-col justify-center items-center z-20">
         <div className="flex flex-col items-center justify-center mb-5 md:mb-10 lg:mb-14">
-          <h1 className="font-kulture text-4xl md:text-4xl lg:text-7xl uppercase text-black mb-1 md:mb-2 lg:mb-5">
-            by flex
-          </h1>
-          <span
-            className={`font-kulture text-5xl md:text-6xl lg:text-9xl uppercase text-white ${styles.wonchis}`}
-          >
-            WONCHIS
-          </span>
-        </div>
-
-        <div className="max-w-[920px]">
-          <p className="text-3xl lg:text-5xl text-flexbiege text-center font-kulture leading-normal">
-            Te presentamos el snack definitivo. Muy crujiente. Alto en
-            proteínas.
-          </p>
-        </div>
-
-        <div className="mt-[-30px]">
-          {/* <Image
-            className="relative"
-            src="/shibaStatic.svg"
-            alt="Shiba Static"
-            width={237}
-            height={243}
+          <Image
+            className="relative lg:w-[628px] lg:h-[246px] px-4"
+            src="/svgs/flexLogo.svg"
+            alt="FlexCidine Logo"
+            width={628}
+            height={246}
             priority
-          /> */}
-          <ShibaStatic className="w-64 h-64" />
-          {/* <ShibaSvg /> */}
+          />
         </div>
 
-        <div className="flex justify-between items-start flex-col lg:flex-row">
-          <p
-            className={`text-center md:text-end font-kulture text-2xl lg:text-5xl text-secondary max-w-[514px] leading-normal m-8 ${styles.footerText}`}
-          >
-            ¡Sé de los primeros en hacer el pedido!
+        <div className="max-w-[620px] md:max-w-[800px] xl:max-w-[1000px]">
+          <p className="leading-relaxed text-3xl md:text-4xl xl:text-5xl xl:leading-normal text-flexbiege text-center font-kulture px-5">
+            <span className="relative inline-flex items-center">
+              <img
+                className="absolute top-[-10px] lg:top-[-40px] left-[-20px] lg:left-[-40px] w-[28px] h-[25px] lg:w-[56px] lg:h-[51px]"
+                src="/svgs/textLines.svg"
+                alt="Lines Decoration"
+              />
+              <span className="relative">Te</span>
+            </span>{' '}
+            presentamos el snack definitivo.
+            <br />
+            Muy{' '}
+            <span className="relative underline-custom decoration-4 decoration-[#374A99] underline">
+              crujiente
+            </span>
+            . Alto en{' '}
+            <span className="relative inline-flex">
+              <span>proteínas.</span>
+              <img
+                className="absolute top-[100%] left-[50%] transform translate-x-[-50%] mt-[-10px] lg:mt-[-4px] w-[80px] h-[61px] lg:w-[80px] lg:h-[61px]"
+                src="/svgs/textArrows.svg"
+                alt="Arrows Decoration"
+              />
+            </span>
           </p>
+        </div>
+        <div className="max-w-[920px]">
+          <p
+            className={`text-center font-kulture text-xl md:text-3xl xl:text-5xl xl:leading-normal text-secondary max-w-[514px] leading-normal my-12 ${styles.footerText}`}
+          >
+            ¡Sé de los primeros en conseguirlos!
+          </p>
+        </div>
+
+        <div className="flex justify-between items-center lg:items-start flex-col lg:flex-row">
+          <span className="text-white text-center lg:text-end font-lato text-xl md:text-3xl lg:max-w-[380px] mb-4 lg:mb-0 lg:mr-8">
+            Suscríbete para un acceso anticipado.
+          </span>
           <div className="flex flex-col">
             <div
-              className="group cursor-pointer m-8 mt-12 shadow-[10px_10px_0px_0px_rgba(0,0,0)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0)] 
-            transition-all duration-300 w-full mr-4 lg:w-[380px] h-[70px] border-[4px] border-black bg-[#F0E7D8] rounded-lg flex items-center justify-start"
+              className="group cursor-pointer shadow-[10px_10px_0px_0px_rgba(0,0,0)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0)] 
+            transition-all duration-300 w-full mr-4 mb-6 lg:w-[380px] h-[70px] border-[4px] border-black bg-[#F0E7D8] rounded-lg flex items-center justify-start"
             >
               <form onSubmit={handleSubmit} className="flex items-center">
                 <input
@@ -239,12 +290,14 @@ export default function Home() {
                   type="email"
                   name="name"
                   placeholder="Correo electrónico"
+                  value={mailInput}
                   onChange={(e) => setMailInput(e.target.value)}
+                  disabled={isSubmitting || isSubscribed}
                 />
-                <button>
+                <button type="submit" disabled={isSubmitting || isSubscribed}>
                   <Image
                     className="relative transition-transform duration-300 group-hover:translate-x-4"
-                    src="/newsletterEnter.svg"
+                    src="/svgs/newsletterEnter.svg"
                     alt="Shiba Static"
                     width={49}
                     height={31}
@@ -254,21 +307,38 @@ export default function Home() {
               </form>
             </div>
 
-            <span className="text-white font-lato text-xl md:text-3xl max-w-[380px] ml-8">
-              Suscríbete para un acceso anticipado
-            </span>
+            <div>
+              <input
+                type="checkbox"
+                id="privacy-checkbox"
+                className="cursor-pointer ml-2 mt-1 w-5 h-5 appearance-none border-2 border-black rounded-sm checked:bg-secondary checked:border-black focus:outline-none focus:ring-0"
+                style={{ boxShadow: '4px 4px 0px 0px rgba(0, 0, 0, 1)' }}
+                disabled={isSubmitting || isSubscribed}
+                required
+              />
+              <label
+                htmlFor="privacy-checkbox"
+                className="font-lato text-lg md:text-xl ml-4"
+              >
+                Acepto la{' '}
+                <a
+                  href="/wonchis_politica_privacidad.pdf"
+                  target="_blank"
+                  className="text-white underline"
+                >
+                  Política de privacidad
+                </a>
+                .
+              </label>
+              {feedbackMessage && (
+                <p className="mt-4 text-sm text-green-900">{feedbackMessage}</p>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="w-[240px] h-[300px] rounded-2xl bg-black fixed bottom-12 right-12 opacity-0"></div>
       </div>
-
-      {/* <p className="justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-        Get started by editing&nbsp;
-        <code className="font-mono font-bold">
-          src/app/page.tsx {mousePosition.x} {mousePosition.y}
-        </code>
-      </p> */}
     </main>
   )
 }
