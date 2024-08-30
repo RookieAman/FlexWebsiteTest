@@ -14,6 +14,10 @@ export default function Home() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
+      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        return
+      }
+
       const { clientX, clientY } = e
       const wonchis = document.querySelectorAll<HTMLDivElement>('.wonchi')
 
