@@ -92,7 +92,7 @@ export default function Home() {
         <div className="flex pt-10 pl-10 w-1/3">
           <div className="flex flex-col items-center justify-center">
             <div className="flex mb-6">
-              <div className="relative mr-4 ">
+              <div className="relative mr-2 sm:mr-4">
                 <a href="https://www.instagram.com/flexcidine" target="_blank">
                   <Image
                     src="/svgs/logo_insta.svg"
@@ -102,7 +102,7 @@ export default function Home() {
                   />
                 </a>
               </div>
-              <div className="relative mr-4">
+              <div className="relative mr-2 sm:mr-4">
                 <a
                   href="https://www.tiktok.com/@flexcidine_?lang=es"
                   target="_blank"
@@ -115,7 +115,7 @@ export default function Home() {
                   />
                 </a>
               </div>
-              <div className="relative mr-4">
+              <div className="relative mr-4 sm:mr-4">
                 <a href="https://www.youtube.com/@FlexCidine" target="_blank">
                   <Image
                     src="/svgs/logo_yt.svg"
@@ -134,7 +134,7 @@ export default function Home() {
                   width={36}
                   height={27}
                 />
-                <span className="font-lato text-sm md:text-xl lg:text-2xl text-white">
+                <span className="font-lato text-center text-xs sm:text-sm md:text-xl lg:text-2xl text-white">
                   ¡Seamos Wonchis!
                 </span>
               </div>
@@ -156,9 +156,9 @@ export default function Home() {
               height={176}
               priority
             />
-            <div className="w-[237px] absolute flex justify-end  mr-2 mt-4 md:mt-6 md:mr-12 lg:mt-8 lg:mr-14">
+            <div className="w-[237px] absolute flex justify-end mr-2 mt-2 md:mt-6 md:mr-12 lg:mt-8 lg:mr-14">
               <Image
-                className="relative lg:w-[237px] lg:h-[50px] xl:w-[237px] xl:h-[66px] w-[100px] h-[28px] sm:w-[150px] sm:h-[42px]"
+                className="relative w-[100px] h-[30px] sm:w-[150px] sm:h-[42px] lg:w-[237px] lg:h-[50px] xl:w-[237px] xl:h-[66px]"
                 src="/svgs/bucketsLogo.svg"
                 alt="Buckets Logo"
                 width={237}
@@ -173,7 +173,7 @@ export default function Home() {
       <div className="relative flex w-full flex-col justify-center items-center z-30">
         <div className="flex flex-col items-center justify-center mb-5 md:mb-10 lg:mb-14">
           <Image
-            className="relative w-[414px] h-[173px] lg:w-[628px] lg:h-[246px] px-4 my-5"
+            className="relative w-[314px] h-[123px] md:w-[414px] md:h-[173px] lg:w-[628px] lg:h-[246px] px-4 my-5"
             src="/svgs/flexLogo.svg"
             alt="FlexCidine Logo"
             width={628}
@@ -182,8 +182,8 @@ export default function Home() {
           />
         </div>
 
-        <div className="max-w-[620px] md:max-w-[800px] xl:max-w-[1000px]">
-          <p className="leading-relaxed text-2xl md:text-3xl xl:text-5xl xl:leading-normal text-flexbiege text-center font-kulture px-5">
+        <div className="max-w-[450px] sm:max-w-[520px] md:max-w-[640px] xl:max-w-[1000px]">
+          <p className="leading-relaxed text-xl sm:text-2xl md:text-3xl xl:text-5xl xl:leading-normal text-flexbiege text-center font-kulture px-5">
             <span className="relative inline-flex items-center">
               <img
                 className="absolute top-[-10px] lg:top-[-40px] left-[-20px] lg:left-[-40px] w-[28px] h-[25px] lg:w-[56px] lg:h-[51px]"
@@ -192,9 +192,7 @@ export default function Home() {
               />
               <span className="relative">Te</span>
             </span>{' '}
-            presentamos el snack definitivo.
-            <br />
-            Muy{' '}
+            presentamos el snack definitivo. Muy{' '}
             <span className="relative underline-custom decoration-4 decoration-[#374A99] underline">
               crujiente
             </span>
@@ -209,7 +207,7 @@ export default function Home() {
             </span>
           </p>
         </div>
-        <div className="max-w-[920px]">
+        <div className="max-w-[300px] md:max-w-[920px]">
           <p
             className={`text-center font-kulture text-xl md:text-2xl xl:text-4xl xl:leading-normal text-secondary max-w-[514px] leading-normal my-12 ${styles.footerText}`}
           >
@@ -217,7 +215,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="flex justify-between items-center lg:items-start flex-col lg:flex-row mb-12">
+        <div className="flex justify-between items-center lg:items-start flex-col lg:flex-row mb-24">
           <span className="text-white text-center lg:text-end font-lato text-xl md:text-2xl xl:text-3xl lg:max-w-[380px] mb-4 lg:mb-0 lg:mr-8">
             Suscríbete para un acceso anticipado.
           </span>
@@ -293,7 +291,7 @@ export default function Home() {
             className="w-[100px] h-[100px] md:w-[250px] md:h-[250px] blur-sm"
           />
         </div>
-        <div className="absolute top-[30%] left-[80%]" data-speed="0.04">
+        <div className="absolute top-[30%] left-[80%] wonchi" data-speed="0.04">
           <img
             src="/svgs/singleWonchi.png"
             alt="Blurry Product 2"
