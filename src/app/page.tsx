@@ -226,7 +226,7 @@ export default function Home() {
           <div className="flex flex-col">
             <div
               className="group cursor-pointer shadow-[10px_10px_0px_0px_rgba(0,0,0)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0)] 
-            transition-all duration-300 w-full mr-4 mb-6 lg:w-[380px] h-[50px] md:h-[70px] border-[4px] border-black bg-[#F0E7D8] rounded-lg flex items-center justify-start"
+            transition-all duration-300 mr-4 mb-6 lg:w-[380px] h-[50px] md:h-[70px] border-[4px] border-black bg-[#F0E7D8] rounded-lg flex items-center justify-start"
             >
               <form onSubmit={handleSubmit} className="flex items-center">
                 <input
@@ -275,7 +275,9 @@ export default function Home() {
                 .
               </label>
               {feedbackMessage && (
-                <p className="mt-4 text-sm text-green-900">{feedbackMessage}</p>
+                <p className="mt-4 text-sm text-green-900 text-center max-w-[280px] sm:max-w-[380px]">
+                  {feedbackMessage}
+                </p>
               )}
             </div>
           </div>
