@@ -280,8 +280,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        <div className="w-[240px] h-[300px] rounded-2xl bg-black fixed bottom-12 right-12 opacity-0"></div>
       </div>
 
       <div
