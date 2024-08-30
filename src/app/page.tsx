@@ -142,7 +142,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-1/3">
-          <h1 className="text-flexbiege text-center text-2xl absolute sm:relative md:text-3xl xl:text-5xl 2xl:text-6xl font-kulture uppercase pt-10">
+          <h1 className="text-flexbiege text-center text-2xl md:text-3xl xl:text-5xl 2xl:text-6xl font-kulture uppercase pt-10">
             ¡Muy pronto!
           </h1>
         </div>
@@ -171,7 +171,7 @@ export default function Home() {
       </div>
 
       <div className="relative flex w-full flex-col justify-center items-center z-30">
-        <div className="flex flex-col items-center justify-center mt-[-50px] lg:mt-0 lg:mb-14">
+        <div className="flex flex-col items-center justify-center mt-0 lg:mt-0 lg:mb-14">
           <Image
             className="relative w-[314px] h-[123px] md:w-[414px] md:h-[173px] lg:w-[628px] lg:h-[246px] px-4 my-5"
             src="/svgs/flexLogo.svg"
@@ -226,7 +226,7 @@ export default function Home() {
             >
               <form onSubmit={handleSubmit} className="flex items-center">
                 <input
-                  className="text-black bg-[#F0E7D8] font-lato text-2xl ml-4 focus:outline-none placeholder:text-black"
+                  className="text-black bg-[#F0E7D8] font-lato text-xl sm:text-2xl ml-4 focus:outline-none placeholder:text-black"
                   type="email"
                   name="name"
                   placeholder="Correo electrónico"
