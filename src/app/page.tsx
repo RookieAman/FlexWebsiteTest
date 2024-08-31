@@ -161,6 +161,7 @@ export default function Home() {
               priority
             />
             <div className="w-[237px] absolute flex justify-end mr-2 mt-2 md:mt-6 md:mr-12 lg:mt-8 lg:mr-14">
+              <a href="https://bucketschocolate.com"></a>
               <Image
                 className="relative w-[100px] h-[30px] sm:w-[150px] sm:h-[42px] lg:w-[237px] lg:h-[50px] xl:w-[237px] xl:h-[66px]"
                 src="/svgs/bucketsLogo.svg"

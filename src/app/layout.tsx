@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Lato } from 'next/font/google'
 import './globals.css'
 import localFont from 'next/font/local'
+import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -37,6 +38,7 @@ export default function RootLayout({
         className={`${inter.className} ${kultureDisplay.variable} ${lato.variable}`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   )
